@@ -1,20 +1,20 @@
-name: dagger
+name: Dagger Test
 on:
-  push:
-    branches: [main]
+  workflow_dispatch:
 
 jobs:
-  build-and-push:
+  dagger-job:
     runs-on: ubuntu-latest
+
     permissions:
       contents: read
       packages: write
 
     steps:
-      - name: Checkout repo
+      - name: Checkout Code
         uses: actions/checkout@v4
 
-      - name: Run Dagger pipeline
+      - name: Run Dagger Pipeline
         uses: dagger/dagger-for-github@8.0.0
         with:
           verb: call
@@ -23,11 +23,12 @@ jobs:
           args: |
             build-and-push
             --registry=ghcr.io
-            --image-name=${{ github.repository_owner }}/dagger-test
+            --image-name=ghcr.io/yourusername/dagger-test
             --username=${{ github.actor }}
             --password=env://DOCKER_PASSWORD
             --build-context=.
           cloud-token: ${{ secrets.DAGGER_CLOUD_TOKEN }}
         env:
-          DOCKER_PASSWORD: ${{ secrets.REGISTRY_PASSWORD }}
+          DOCKER_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
+
 
