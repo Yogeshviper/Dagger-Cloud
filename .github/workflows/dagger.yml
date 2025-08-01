@@ -18,17 +18,19 @@ jobs:
         uses: dagger/dagger-for-github@8.0.0
         with:
           verb: call
-          version: latest
+          version: 0.18.14
           module: github.com/daggerverse/dagger-ghcr-demo@v0.1.5
           args: |
             build-and-push
             --registry=ghcr.io
-            --image-name=ghcr.io/yourusername/dagger-test
-            --username=${{ github.actor }}
+            --image-name=ghcr.io/${GITHUB_ACTOR}/dagger-test
+            --username=env://USERNAME
             --password=env://DOCKER_PASSWORD
             --build-context=.
           cloud-token: ${{ secrets.DAGGER_CLOUD_TOKEN }}
         env:
+          USERNAME: ${{ github.actor }}
           DOCKER_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
+
 
 
