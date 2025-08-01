@@ -20,7 +20,7 @@ jobs:
           verb: call
           version: latest
           module: github.com/daggerverse/dagger-ghcr-demo@v0.1.5
-          args: >
+          args: |
             build-and-push
             --registry=ghcr.io
             --image-name=${{ github.repository_owner }}/dagger-test
@@ -30,3 +30,4 @@ jobs:
           cloud-token: ${{ secrets.DAGGER_CLOUD_TOKEN }}
         env:
           DOCKER_PASSWORD: ${{ secrets.REGISTRY_PASSWORD }}
+
